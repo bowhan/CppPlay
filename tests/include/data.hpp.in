@@ -1,0 +1,9 @@
+#pragma once
+
+#include <string>
+
+namespace tests {
+
+const std::string TestEmptyFile = std::string("@TESTS_DIR@/data/empty");
+
+}
