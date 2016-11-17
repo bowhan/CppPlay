@@ -23,10 +23,10 @@ FP::Run(3, &add1, &mul2, &add1, &sub3); // (3+1)*2+1-3 = 6
 // 2
 FP::Pipeline<int> math;
 math.Register(&add1).Register(&mul2).Register(&add1).Register(&sub3);
-math.Run(); // 6
+math(3); // 6
 ```
 
-### 2. A Generic Matrix class
+### 2. A Generic Matrix Class to Learn Metaprogramming
 
 ```C++
 #include "matrix.hpp"
