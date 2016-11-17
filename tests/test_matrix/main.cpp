@@ -27,28 +27,6 @@ TEST_F(MatrixTest, ArithmeticTests) {
     EXPECT_TRUE(mx3(1, 1) == (2 + 5));
     EXPECT_TRUE(mx3(1, 2) == (2 + 1));
 
-    #ifndef __clang__ /* the following code doesn't compile on clang yet */
-    /* different types */
-        nMatrix<unsigned int, 2, 3> mx4{2, 1, 2, 4, 5, 6};
-        Display2dMatrix(mx1.operate(mx4, MultiplyIntInt));
-        /* [  2  2  6
-         *    0  25 6] */
-
-        nMatrix<bool, 2, 3> mx5{false, true, true, false, true, false};
-        Display2dMatrix(mx1.operate(mx5, AddIntBool));
-        /*
-         * */
-
-        nMatrix<string, 2, 3> mx6{};
-    //    Display2dMatrix(mx1.operate(mx6, AddIntBool)); /* this won't compile because int cannot be converted to string */
-
-        nMatrix<double, 2, 3> mx7{1., 2., 3., 4., 5., 6.};
-        Display2dMatrix(mx1.operate(mx7, AddIntDouble));
-
-        nMatrix<int, 2, 3>::convert_t<string> mx8{};
-        decltype(mx1)::convert_t<string> mx8{}; // this works but Clion doesn't understand it
-    #endif
-
     auto mx21 = mx1 + 3;
     EXPECT_TRUE(mx21(0, 0) == (3 + 1));
     EXPECT_TRUE(mx21(0, 1) == (3 + 2));
