@@ -39,3 +39,49 @@ mx3(0, 0); // (2 + 1) == 3
 mx3(1, 1); // (2 + 5) == 7
 
 ```
+
+### 3. Mimic Go Channel 
+```C++
+#include "channel.hpp"
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    Channel<int> chan(10);
+    int numConsumer = 1;
+    int numData = 1000;
+    int *input = new int[numData];
+    int *output = new int[numData];
+    for (int i = 0; i < numData; i++) {
+        input[i] = i;
+    }
+    vector<thread> consumers(numConsumer);
+    /* start consumers first */
+    for (int i = 0; i < numConsumer; ++i) {
+        consumers[i] = thread{[&]() {
+            int k;
+            while (chan >> k) {
+                output[k] = k;
+            }
+        }};
+    }
+    /* then begin producing */
+    for (int i = 0; i < numData; ++i) {
+        chan << input[i];
+    }
+    /* when data is done, close the channel */
+    chan.Close();
+    /* wait until consumer is done */
+    for (auto& t: consumers) {
+        if (t.joinable()) t.join();
+    }
+    /* show data */
+    for (int i = 0; i < numData; ++i) {
+        cerr << output[i] << endl;
+    }
+    delete[] input;
+    delete[] output;
+}
+```
